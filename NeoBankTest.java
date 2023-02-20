@@ -18,19 +18,31 @@ public class NeobankOneTest {
         driver.manage().window().maximize();
     }
 
+    @Test
+    public void testNeoBankBusinessAccountOpening() {
+        String expectedBrowserTabTitle = "NEOBANK для бізнесу";
+        String expectedBusinessAccountOpeningText = "Відккриття бізнес-рахунку можливе тільки через NEOBANK для бізнесу";
+    // Відкриття сторінки
+    homePage.open();
+
+    // Перевірка, що заголовок браузера вірний
+    Assert.assertTrue(homePage.isBrowserTabTitleCorrect(expectedBrowserTabTitle), "Заголовок браузера невірний");
+
+    // Введення номеру телефону
+    homePage.enterPhoneNumber("+380636901699");
+
+    // Натискання кнопки "Продовжити"
+    homePage.clickContinueButton();
+
+    // Розгортання вікна на весь екран
+    homePage.maximizeWindow();
+
+    // Перевірка, що текст відображається на сторінці
+    Assert.assertTrue(homePage.isBusinessAccountOpeningTextDisplayed(expectedBusinessAccountOpeningText), "Текст не відображається на сторінці");
+
+}
+
     @AfterMethod
     public void teardown() {
         driver.quit();
     }
-
-    @Test
-    public void neobankOneTest() {
-        HomePage homePage = new HomePage(driver);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageTitleCorrect());
-        homePage.enterPhoneNumber("+380636901699");
-        homePage.clickContinueButton();
-        driver.manage().window().maximize();
-        Assert.assertTrue(homePage.isInfoTextDisplayed());
-    }
-}
